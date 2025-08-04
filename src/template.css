@@ -1,0 +1,53 @@
+@import "./palette.css";
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *)) {
+}
+
+@layer base {
+    html {
+      scroll-behavior: smooth;
+    }
+    html,
+    body {
+      @apply h-full overflow-x-hidden m-0 p-0 box-border min-h-[100vh] font-sans transition-all ease-in-out;
+    }
+    body {
+      @apply flex flex-col w-full min-h-[100vh] p-8;
+      * {
+        @apply transition-all ease-in-out;
+        &:focus {
+          outline: none;
+        }
+      }
+    }
+    main {
+      @apply flex w-full min-h-full items-center justify-center flex-col p-8 box-border mt-[20px] mb-[20px];
+      &.light {
+        @apply bg-[#eee];
+      }
+      &.dark {
+        @apply bg-[#222];
+      }
+      &:nth-child(1) {
+        @apply mt-0;
+      }
+      &:nth-child(-1) {
+        @apply mb-0;
+      }
+      h1 {
+        @apply text-5xl block w-[82%] mt-[10px] mb-[20px] ml-[-20px];
+      }
+      section {
+        @apply flex grid-cols-4 m-0 p-0 w-full;
+        article {
+          @apply flex w-1/4 mr-3 mt-3 p-4;
+          &:nth-child(4) {
+            @apply mr-0!;
+          }
+        }
+        button {
+          @apply text-xl m-0 text-center w-1/12 py-3;
+        }
+      }
+    }
+}
