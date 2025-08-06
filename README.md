@@ -14,6 +14,7 @@ bun palette #4169c6 && bun run build
 - this is mapped to the tailwindcss color `--color-adventure-of-the-seas` as `primary`
 - this also created the `secondary`, `terinary`, `neutral` and `neutralVariant` palettes
 - each with their own steps (50-950) with light and dark mode variants
+    - see a full palette output in the [release notes](https://github.com/xero/color-palette-generator/releases/tag/v1.1.0)
 
 `palette` can take a single color or multiple, in `RGB` `#RGB` `RRGGBB` or `#RRGGBB` format
 

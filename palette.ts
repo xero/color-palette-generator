@@ -7,22 +7,22 @@ import ClosestVector from 'closestvector';
 let seedColor:number, colornameslist:Record<string, string>;
 const
 	tones: number[]=[100, 99, 98, 95, 90, 80, 70, 60, 50, 40, 30, 20, 10, 0],
-	materialTones = [10, 20, 30, 40, 50, 60, 70, 80, 90, 95, 98],
-	roleTonesLight: Record<string, number>={
+	materialTones=[10, 20, 30, 40, 50, 60, 70, 80, 90, 95, 98],
+	roleTonesLight:Record<string, number>={
 		a1: 40, // primary
 		a2: 40, // secondary
 		a3: 40, // tertiary
 		n1: 90, // neutral
 		n2: 80, // neutralVariant
 	},
-	roleTonesDark: Record<string, number>={
+	roleTonesDark:Record<string, number>={
 		a1: 80,
 		a2: 80,
 		a3: 80,
 		n1: 20,
 		n2: 30,
 	},
-	roles: Record<string, string>={
+	roles:Record<string, string>={
 		a1: 'primary',
 		a2: 'secondary',
 		a3: 'tertiary',
@@ -36,7 +36,7 @@ const
 		{ key: '-neutral', label: 'Neutral', class: 'neutral' },
 		{ key: '-neutralVariant', label: 'Neutral Variant', class: 'neutralVariant' },
 	],
-	materialToTailwind = {
+	materialToTailwind={
 		"0":   "950",
 		"10":  "950",
 		"20":  "900",
@@ -51,7 +51,7 @@ const
 		"98":  "50",
 		"100": "50",
 	},
-	materialToTailwindDark = {
+	materialToTailwindDark={
 		"100": "950",
 		"98":  "950",
 		"95":  "900",
@@ -66,108 +66,92 @@ const
 		"10":  "50",
 		"0":   "50",
 	},
-	SEMANTIC_BLOCKS_LIGHT=(c:string)=>[
-		{
-			colClass: 'col-4',
-			articles: [
-				[`text-${c}-50`, `bg-${c}-700`, 'Primary'],
-				[`text-${c}`, `bg-${c}-50`, 'On Primary'],
-				[`text-${c}`, `bg-${c}-200`, 'Primary Container'],
-				[`text-${c}-200`, `bg-${c}-950`, 'On Primary Container'],
-			],
-		},{
-			colClass: 'col-4',
-			articles: [
-				[`text-${c}-800`, `bg-${c}-400`, 'Invert Primary'],
-				[`text-${c}-100`, `bg-${c}-900`, 'Invert On Primary'],
-				[`text-${c}-100`, `bg-${c}-800`, 'Invert Primary Container'],
-				[`text-${c}-100`, `bg-${c}-600`, 'Invert On Primary Container'],
-			],
-		},{
-			colClass: 'col-4',
-			articles: [
-				[`text-${c}-50`, `bg-${c}-secondary`, 'Secondary'],
-				[`text-${c}-secondary`, `bg-${c}-50`, 'On Secondary'],
-				[`text-${c}-secondary`, `bg-${c}-200`, 'Secondary Container'],
-				[`text-${c}-secondary-200`, `bg-${c}-950`, 'On Secondary Container'],
-			],
-		},{
-			colClass: 'col-4',
-			articles: [
-				[`text-${c}-50`, `bg-${c}-tertiary`, 'Tertiary'],
-				[`text-${c}-tertiary`, `bg-${c}-50`, 'On Tertiary'],
-				[`text-${c}-tertiary`, `bg-${c}-tertiary-200`, 'Tertiary Container'],
-				[`text-${c}-tertiary-200`, `bg-${c}-tertiary-950`, 'On Tertiary Container'],
-			],
-		},{
-			colClass: 'col-4',
-			articles: [
-				[`text-${c}-950`, `bg-${c}-neutral-50`, 'Background'],
-				[`text-${c}-neutral-50`, `bg-${c}-neutral-950`, 'On Background'],
-				[`text-${c}-neutral-950`, `bg-${c}-neutral-50`, 'Surface'],
-				[`text-${c}-neutral-200`, `bg-${c}-neutral-950`, 'On Surface'],
-			],
-		},{
-			colClass: 'col-4',
-			articles: [
-				[`text-${c}-neutralVariant-0`, `bg-${c}-neutralVariant-200`, 'Surface Variant'],
-				[`text-${c}-neutralVariant`, `bg-${c}-neutralVariant-800`, 'On Surface Variant'],
-				[`text-${c}-neutralVariant`, `bg-${c}-neutralVariant-600`, 'Outline'],
-				[`text-${c}-neutralVariant-100`, `bg-gradient-to-r from-${c} to-${c}-neutralVariant-90`, 'Gradient'],
-			]
-		}
-	],
-	SEMANTIC_BLOCKS_DARK=(c:string)=>[
-		{
-			colClass: 'col-4',
-			articles: [
-				[`text-${c}-50`, `bg-${c}-700`, 'Primary'],
-				[`text-${c}-400`, `bg-${c}-950`, 'On Primary'],
-				[`text-${c}-950`, `bg-${c}-400`, 'Primary Container'],
-				[`text-${c}-300`, `bg-${c}-600`, 'On Primary Container'],
-			],
-		},{
-			colClass: 'col-4',
-			articles: [
-				[`text-${c}-900`, `bg-${c}-300`, 'Invert Primary'],
-				[`text-${c}-200`, `bg-${c}-700`, 'Invert On Primary'],
-				[`text-${c}-300`, `bg-${c}-600`, 'Invert Primary Container'],
-				[`text-${c}-950`, `bg-${c}-400`, 'Invert On Primary Container'],
-			],
-		},{
-			colClass: 'col-4',
-			articles: [
-				[`text-${c}-secondary-100`, `bg-${c}-700`, 'Secondary'],
-				[`text-${c}-secondary-100`, `bg-${c}-secondary-500`, 'On Secondary'],
-				[`text-${c}-secondary-100`, `bg-${c}-secondary-600`, 'Secondary Container'],
-				[`text-${c}-secondary-100`, `bg-${c}-secondary-700`, 'On Secondary Container'],
-			],
-		},{
-			colClass: 'col-4',
-			articles: [
-				[`text-${c}-tertiary-100`, `bg-${c}-tertiary-700`, 'Tertiary'],
-				[`text-${c}-tertiary-100`, `bg-${c}-tertiary-500`, 'On Tertiary'],
-				[`text-${c}-tertiary-100`, `bg-${c}-tertiary-600`, 'Tertiary Container'],
-				[`text-${c}-tertiary-100`, `bg-${c}-tertiary-700`, 'On Tertiary Container'],
-			],
-		},{
-			colClass: 'col-4',
-			articles: [
-				[`text-${c}-neutral`, `bg-${c}-neutral-950`, 'Background'],
-				[`text-${c}-neutral`, `bg-${c}-neutral-700`, 'On Background'],
-				[`text-${c}-neutral`, `bg-${c}-neutral-900`, 'Surface'],
-				[`text-${c}-neutral`, `bg-${c}-neutral-600`, 'On Surface'],
-			],
-		},{
-			colClass: 'col-4',
-			articles: [
-				[`text-${c}-neutralVariant`, `bg-${c}-neutralVariant-700`, 'Surface Variant'],
-				[`text-${c}-neutralVariant`, `bg-${c}-neutralVariant-800`, 'On Surface Variant'],
-				[`text-${c}-neutralVariant`, `bg-${c}-neutralVariant-600`, 'Outline'],
-				[`text-${c}-neutralVariant`, `bg-gradient-to-r from-${c} to-${c}-neutralVariant-90`, 'Gradient'],
-			]
-		}
-	],
+	SEMANTIC_BLOCKS_LIGHT=(c:string)=>[{
+		articles: [
+			[`text-${c}-50`, `bg-${c}-700`, 'Primary'],
+			[`text-${c}`, `bg-${c}-50`, 'On Primary'],
+			[`text-${c}`, `bg-${c}-200`, 'Primary Container'],
+			[`text-${c}-200`, `bg-${c}-950`, 'On Primary Container'],
+		],
+	},{
+		articles: [
+			[`text-${c}-800`, `bg-${c}-400`, 'Invert Primary'],
+			[`text-${c}-100`, `bg-${c}-900`, 'Invert On Primary'],
+			[`text-${c}-100`, `bg-${c}-800`, 'Invert Primary Container'],
+			[`text-${c}-100`, `bg-${c}-600`, 'Invert On Primary Container'],
+		],
+	},{
+		articles: [
+			[`text-${c}-50`, `bg-${c}-secondary`, 'Secondary'],
+			[`text-${c}-secondary`, `bg-${c}-50`, 'On Secondary'],
+			[`text-${c}-secondary`, `bg-${c}-200`, 'Secondary Container'],
+			[`text-${c}-secondary-200`, `bg-${c}-950`, 'On Secondary Container'],
+		],
+	},{
+		articles: [
+			[`text-${c}-50`, `bg-${c}-tertiary`, 'Tertiary'],
+			[`text-${c}-tertiary`, `bg-${c}-50`, 'On Tertiary'],
+			[`text-${c}-tertiary`, `bg-${c}-tertiary-200`, 'Tertiary Container'],
+			[`text-${c}-tertiary-200`, `bg-${c}-tertiary-950`, 'On Tertiary Container'],
+		],
+	},{
+		articles: [
+			[`text-${c}-950`, `bg-${c}-neutral-50`, 'Background'],
+			[`text-${c}-neutral-50`, `bg-${c}-neutral-950`, 'On Background'],
+			[`text-${c}-neutral-950`, `bg-${c}-neutral-50`, 'Surface'],
+			[`text-${c}-neutral-200`, `bg-${c}-neutral-950`, 'On Surface'],
+		],
+	},{
+		articles: [
+			[`text-${c}-neutralVariant-0`, `bg-${c}-neutralVariant-200`, 'Surface Variant'],
+			[`text-${c}-neutralVariant`, `bg-${c}-neutralVariant-800`, 'On Surface Variant'],
+			[`text-${c}-neutralVariant`, `bg-${c}-neutralVariant-600`, 'Outline'],
+			[`text-${c}-neutralVariant-100`, `bg-gradient-to-r from-${c} to-${c}-neutralVariant-90`, 'Gradient'],
+		]
+	}],
+	SEMANTIC_BLOCKS_DARK=(c:string)=>[{
+		articles: [
+			[`text-${c}-50`, `bg-${c}-700`, 'Primary'],
+			[`text-${c}-400`, `bg-${c}-950`, 'On Primary'],
+			[`text-${c}-950`, `bg-${c}-400`, 'Primary Container'],
+			[`text-${c}-300`, `bg-${c}-600`, 'On Primary Container'],
+		],
+	},{
+		articles: [
+			[`text-${c}-900`, `bg-${c}-300`, 'Invert Primary'],
+			[`text-${c}-200`, `bg-${c}-700`, 'Invert On Primary'],
+			[`text-${c}-300`, `bg-${c}-600`, 'Invert Primary Container'],
+			[`text-${c}-950`, `bg-${c}-400`, 'Invert On Primary Container'],
+		],
+	},{
+		articles: [
+			[`text-${c}-secondary-100`, `bg-${c}-700`, 'Secondary'],
+			[`text-${c}-secondary-100`, `bg-${c}-secondary-500`, 'On Secondary'],
+			[`text-${c}-secondary-100`, `bg-${c}-secondary-600`, 'Secondary Container'],
+			[`text-${c}-secondary-100`, `bg-${c}-secondary-700`, 'On Secondary Container'],
+		],
+	},{
+		articles: [
+			[`text-${c}-tertiary-100`, `bg-${c}-tertiary-700`, 'Tertiary'],
+			[`text-${c}-tertiary-100`, `bg-${c}-tertiary-500`, 'On Tertiary'],
+			[`text-${c}-tertiary-100`, `bg-${c}-tertiary-600`, 'Tertiary Container'],
+			[`text-${c}-tertiary-100`, `bg-${c}-tertiary-700`, 'On Tertiary Container'],
+		],
+	},{
+		articles: [
+			[`text-${c}-neutral`, `bg-${c}-neutral-950`, 'Background'],
+			[`text-${c}-neutral`, `bg-${c}-neutral-700`, 'On Background'],
+			[`text-${c}-neutral`, `bg-${c}-neutral-900`, 'Surface'],
+			[`text-${c}-neutral`, `bg-${c}-neutral-600`, 'On Surface'],
+		],
+	},{
+		articles: [
+			[`text-${c}-neutralVariant`, `bg-${c}-neutralVariant-700`, 'Surface Variant'],
+			[`text-${c}-neutralVariant`, `bg-${c}-neutralVariant-800`, 'On Surface Variant'],
+			[`text-${c}-neutralVariant`, `bg-${c}-neutralVariant-600`, 'Outline'],
+			[`text-${c}-neutralVariant`, `bg-gradient-to-r from-${c} to-${c}-neutralVariant-90`, 'Gradient'],
+		]
+	}],
 	tone2step=(t:number,x=0)=>x?materialToTailwindDark[t]??t:materialToTailwind[t]??t,
 	roleToneButtons=(c:string,role:string)=>
 	materialTones.slice().reverse().map(t=>
@@ -178,9 +162,8 @@ const
 			<button class="arrow text-${c}-0">⟶</button>
 			${roleToneButtons(c, role.class)}
 		</section>`,
-	semanticBlock=(block:{articles:string[][], colClass:string})=>`
-		<section class="${block.colClass}">
-			${block.articles.map(([txt, bg, lbl])=>
+	semanticBlock=(block:{articles:string[][]})=>`
+		<section>${block.articles.map(([txt, bg, lbl])=>
 				`<article class="${txt} ${bg}">${lbl}</article>`).join('\n')}
 		</section>`,
 	buildPaletteHTML=(c:string, h:string, invert:(hex:string)=>string)=>{
@@ -284,23 +267,24 @@ const
 		for (const colorArg of colorArgs) {
 			await task(parse, "Failed to parse color", colorArg);
 			const
+				rev=materialTones.reverse(),
 				palette=CorePalette.of(seedColor),
 				{index:primaryIndex}=closest.get(argb2rgb(palette.a1.tone(roleTonesLight.a1))),
 				colorName=colornames[primaryIndex]?.name || 'custom',
 				prefix=normalize(colorName), //prefix=camelize(colorName),
 				cssVars=[
-					palette2css('a1', palette.a1, prefix, roleTonesLight.a1, tones),
-					palette2css('a2', palette.a2, prefix, roleTonesLight.a2, tones),
-					palette2css('a3', palette.a3, prefix, roleTonesLight.a3, tones),
-					palette2css('n1', palette.n1, prefix, roleTonesLight.n1, tones),
-					palette2css('n2', palette.n2, prefix, roleTonesLight.n2, tones),
+					palette2css('a1', palette.a1, prefix, roleTonesLight.a1, materialTones),
+					palette2css('a2', palette.a2, prefix, roleTonesLight.a2, materialTones),
+					palette2css('a3', palette.a3, prefix, roleTonesLight.a3, materialTones),
+					palette2css('n1', palette.n1, prefix, roleTonesLight.n1, materialTones),
+					palette2css('n2', palette.n2, prefix, roleTonesLight.n2, materialTones),
 				].join('\n'),
 				cssVarsDark=[
-					palette2css('a1', palette.a1, prefix, roleTonesDark.a1, tones.reverse(), 1).replace(/#[0-9a-fA-F]{6}/g,m=>invert(m)),
-					palette2css('a2', palette.a2, prefix, roleTonesDark.a2, tones.reverse(), 1).replace(/#[0-9a-fA-F]{6}/g,m=>invert(m)),
-					palette2css('a3', palette.a3, prefix, roleTonesDark.a3, tones.reverse(), 1).replace(/#[0-9a-fA-F]{6}/g,m=>invert(m)),
-					palette2css('n1', palette.n1, prefix, roleTonesDark.n1, tones.reverse(), 1).replace(/#[0-9a-fA-F]{6}/g,m=>invert(m)),
-					palette2css('n2', palette.n2, prefix, roleTonesDark.n2, tones.reverse(), 1).replace(/#[0-9a-fA-F]{6}/g,m=>invert(m)),
+					palette2css('a1', palette.a1, prefix, roleTonesDark.a1, rev, 1).replace(/#[0-9a-fA-F]{6}/g,m=>invert(m)),
+					palette2css('a2', palette.a2, prefix, roleTonesDark.a2, rev, 1).replace(/#[0-9a-fA-F]{6}/g,m=>invert(m)),
+					palette2css('a3', palette.a3, prefix, roleTonesDark.a3, rev, 1).replace(/#[0-9a-fA-F]{6}/g,m=>invert(m)),
+					palette2css('n1', palette.n1, prefix, roleTonesDark.n1, rev, 1).replace(/#[0-9a-fA-F]{6}/g,m=>invert(m)),
+					palette2css('n2', palette.n2, prefix, roleTonesDark.n2, rev, 1).replace(/#[0-9a-fA-F]{6}/g,m=>invert(m)),
 				].join('\n');
 			palettes.push({cssVars, cssVarsDark, prefix, colorName, colorArg});
 		}
