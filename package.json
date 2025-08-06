@@ -8,6 +8,10 @@
     "build": "bun CICaDa.js",
     "palette": "bun palette.ts"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xero/material-tailwind-color-palette-generator.git"
+  },
   "dependencies": {
     "@material/material-color-utilities": "^0.3.0",
     "@tailwindcss/postcss": "^4.1.11",

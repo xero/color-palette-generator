@@ -13,7 +13,7 @@ bun palette #4169c6 \
 
 - the input `#4169c6` resolves to color name _"Adventure of the Seas"_
 - this is mapped to the tailwindcss color `--color-adventure-of-the-seas` as `primary`
-- this also created the `secondary`, `terinary`, `neutral` and `neutralVariant` palettes
+- this also created the `secondary`, `tertiary`, `neutral` and `neutralVariant` palettes
 - each with their own steps (50-950) with light and dark mode variants
     - see a full palette output example in the [release notes](https://github.com/xero/color-palette-generator/releases/tag/v1.1.0)
 
