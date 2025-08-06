@@ -14,13 +14,28 @@ bun palette #4169c6 && bun run build
 - this is mapped to the tailwindcss color `--color-adventure-of-the-seas` as `primary`
 - this also created the `secondary`, `terinary`, `neutral` and `neutralVariant` palettes
 - each with their own steps (50-950) with light and dark mode variants
-    - see a full palette output in the [release notes](https://github.com/xero/color-palette-generator/releases/tag/v1.1.0)
+    - see a full palette output example in the [release notes](https://github.com/xero/color-palette-generator/releases/tag/v1.1.0)
 
-`palette` can take a single color or multiple, in `RGB` `#RGB` `RRGGBB` or `#RRGGBB` format
+`palette` can take a single color or multiple, in a variety of color spaces. e.g.:
 
-```
-bun palette #0f0 #3730a3 #22d3ee 24bca8 && bun run build
-```
+`bun palette 0f0 #0F0 #00ff00 00FF00 #00ff00ff "rgb(0, 255, 0)" "hsl(120 100% 50%)" "color(display-p3 0.4584 0.9853 0.2983)" "lch(87.82 113.33 134.38)" "lab(87.82 -79.27 80.99)" "oklab(0.82 -0.23 0.18)" "oklch(0.8659 0.294454 142.4694)"`
+
+here's a chart breaking down the same color green in multiple formats:
+
+| color format | input                                   | name        | css var             |
+| ------------ | --------------------------------------- | ----------- | ------------------- |
+| shortest hex | 0f0                                     | Forest Ride | --color-forest-ride |
+| short hex    | #0F0                                    | Forest Ride | --color-forest-ride |
+| long hex     | 00ff00                                  | Forest Ride | --color-forest-ride |
+| longer hex   | #00FF00                                 | Forest Ride | --color-forest-ride |
+| figma p3     | #00ff00ff                               | Forest Ride | --color-forest-ride |
+| rgb/a        | rgb(0, 255, 0)                          | Forest Ride | --color-forest-ride |
+| hsl          | hsl(120 100% 50%)                       | Forest Ride | --color-forest-ride |
+| p3           | color(display-p3 0.4584 0.9853 0.2983)  | Forest Ride | --color-forest-ride |
+| lch          | lch(87.82 113.33 134.38)                | Forest Ride | --color-forest-ride |
+| lab          | lab(87.82 -79.27 80.99)                 | Forest Ride | --color-forest-ride |
+| oklab        | oklab(0.82 -0.23 0.18)                  | Forest Ride | --color-forest-ride |
+| oklch        | oklch(0.8659 0.294454 142.4694)         | Forest Ride | --color-forest-ride |
 
 the build script will generate a `dist` folder containing `site.min.css` and a test `index.html`
 

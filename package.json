@@ -3,7 +3,7 @@
   "author": "xero (https://x-e.ro)",
   "description": "generate material color palette for tailwindcss from arbitrary colors",
   "license": "CC0-1.0",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "scripts": {
     "build": "bun CICaDa.js",
     "palette": "bun palette.ts"
@@ -15,6 +15,7 @@
     "closestvector": "^0.6.1",
     "cssnano": "^7.1.0",
     "cssnano-preset-advanced": "^7.0.8",
+    "culori": "^4.0.2",
     "postcss": "^8.5.6",
     "postcss-cli": "^11.0.1",
     "tailwindcss": "^4.1.11"

@@ -2,9 +2,10 @@
 
 import {readFile, writeFile} from 'fs/promises';
 import {CorePalette, TonalPalette} from '@material/material-color-utilities';
+import {converter, clampRgb, formatHex} from 'culori';
 import ClosestVector from 'closestvector';
 
-let seedColor:number, colornameslist:Record<string, string>;
+let palette:CorePalette, colornameslist:Record<string, string>;
 const
 	tones: number[]=[100, 99, 98, 95, 90, 80, 70, 60, 50, 40, 30, 20, 10, 0],
 	materialTones=[10, 20, 30, 40, 50, 60, 70, 80, 90, 95, 98],
@@ -195,24 +196,41 @@ const
 		colornameslist=json;
 	},
 	invert=(h:string)=>{
-		h=h.replace(/^#/, '');
-		if(h.length===3) h=h[0]+h[0]+h[1]+h[1]+h[2]+h[2];
-		if(h.length!==6) throw new Error('Error: Invalid hex color for invert');
-		return ('#'+[0,2,4].map(i=>(255-parseInt(h.slice(i,i+2),16)).toString(16).padStart(2, '0')).join(''));
+	  const rgb=converter('rgb')(h);
+		if(!rgb) throw new Error('Invalid color for invert');
+		const inverted={
+			mode: 'rgb',
+			r: 1-rgb.r,
+			g: 1-rgb.g,
+			b: 1-rgb.b,
+			alpha: rgb.alpha??1
+		};
+		return formatHex(inverted);
 	},
-	normalize = (name: string): string => name.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase(),
-	camelize=(name:string):string=>{
-		return name.replace(/(?:^\w|[A-Z]|\b\w)/g, function(w:string, i:number) {
+	normalize=(n:string):string=>n.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase(),
+	camelize=(n:string):string=>{
+		return n.replace(/(?:^\w|[A-Z]|\b\w)/g, function(w:string, i:number) {
 			return i===0 ? w.toLowerCase() : w.toUpperCase();
 		}).replace(/\s+/g, '');
 	},
 	argb2rgb=(argb:number):[number, number, number]=>[(argb >> 16) & 0xff, (argb >> 8) & 0xff, argb & 0xff],
+	rgb2argb=({ r, g, b, alpha }:{r:number,g:number, b:number, alpha?:number })=>{
+		// clamp to [0, 1]
+		const R=Math.round(Math.max(0, Math.min(1,r)) * 255);
+		const G=Math.round(Math.max(0, Math.min(1,g)) * 255);
+		const B=Math.round(Math.max(0, Math.min(1,b)) * 255);
+		const A=alpha===undefined? 255: Math.round(Math.max(0, Math.min(1,alpha)) * 255);
+		return (A<<24) | (R<<16) | (G<<8) | B;
+	},
 	argb2hex=(argb:number):string=>`#${(argb & 0xffffff).toString(16).padStart(6, '0')}`,
-	hex2rgb=(hex:string):[number, number, number]=>{
-		let h=hex.replace(/^#/, '');
-		if(h.length===3) h=h.split('').map(x=>x+x).join('');
-		const num=parseInt(h, 16);
-		return [(num >> 16) & 0xff, (num >> 8) & 0xff, num & 0xff];
+	hex2rgb=(color:string):[number, number, number]=>{
+		const rgb=converter('rgb')(color);
+		if(!rgb) throw new Error('Invalid color');
+		return [
+			Math.round(rgb.r * 255),
+			Math.round(rgb.g * 255),
+			Math.round(rgb.b * 255)
+		];
 	},
 	palette2css=(role:string, palette:TonalPalette, prefix:string, mainTone:number, tonesMap:number[]=tones, mode:number=0):string=>{
 		const shortName = (role === 'primary' || roles[role]==='primary') ? prefix : prefix + '-' + (roles[role] || role);
@@ -223,18 +241,18 @@ const
 		return lines.join('\n');
 	},
 	parse=(color:string)=>{
-		let hex=color.trim().replace(/^#/, '');
-		if(hex.length===3) hex=hex.split('').map(x=>x+x).join('');
-		if(hex.length===6) hex='ff' + hex;
-		if(hex.length!==8) throw new Error(`Error: Invalid color input:'${color}' \nAccepted formats: #RRGGBB RRGGBB #RGB RGB`);
-		seedColor=parseInt(hex, 16);
+		const
+			rgbConv=converter('rgb'),
+			parsed=rgbConv(color);
+		if (!parsed) throw new Error('Failed parsing color');
+		palette=CorePalette.of(rgb2argb(clampRgb(parsed)));
 	},
 	echo=async(c:number,t:string)=>(
 		c?console.error(`${t}`)
 		 :console.log(`${t}`),
-				await new Promise(r=>setTimeout(r,100))),
+				await new Promise(r=>setTimeout(r,1))),
 	task=async (f:Function, t:string, ...args:any[])=>{
-		try { await f(...args); } catch (e) { await echo(1, t); }
+		try { await f(...args); } catch (e) { await echo(1, t); process.exit(1) }
 	},
 	save=async (css:string, html:string)=>{
 		await writeFile('src/index.html', html);
@@ -268,7 +286,6 @@ const
 			await task(parse, "Failed to parse color", colorArg);
 			const
 				rev=materialTones.reverse(),
-				palette=CorePalette.of(seedColor),
 				{index:primaryIndex}=closest.get(argb2rgb(palette.a1.tone(roleTonesLight.a1))),
 				colorName=colornames[primaryIndex]?.name || 'custom',
 				prefix=normalize(colorName), //prefix=camelize(colorName),
