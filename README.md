@@ -1,6 +1,6 @@
-# color palette generator
+# tailwind color palette generator
 
-generate tailwindcss themes using material-color utilities from arbitrary colors
+generate [tailwindcss themes](https://tailwindcss.com/docs/colors) using [material color utilities](https://github.com/material-foundation/material-color-utilities) from arbitrary colors
 
 ## usage:
 
@@ -31,4 +31,5 @@ the build script will generate a `dist` folder containing `site.min.css` and a t
 ## license
 
 **CC0 1.0 universal (public domain dedication)**
+
 use it for anything, commercial or personal, with or without attribution.
