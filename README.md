@@ -57,6 +57,17 @@ here's a chart breaking down the same color green in multiple formats:
 
 the build script will generate a `dist` folder containing `site.min.css` and a test `index.html`
 
+## tool-chain
+
+this project is powered by the following tools and libraries:
+- [bun](https://bun.sh): dependency and build management
+- [post css](https://postcss.org): css build tool-chain
+- [tailwind css](https://tailwindcss.com): modern css framework
+- [material color utilities](https://github.com/material-foundation/material-color-utilities): material foundation color libraries
+- [closest vector](https://github.com/meodai/ClosestVector/): find the closest number / vector
+- [color names list](https://github.com/meodai/color-names): list of handpicked color names
+- [css nano](https://cssnano.github.io/cssnano): css minifier
+
 ## preview
 
 ![preview](https://github.com/user-attachments/assets/0b76956a-2ba0-4627-9218-f262e96d5640)
