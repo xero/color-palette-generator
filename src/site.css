@@ -1,0 +1,141 @@
+@import "./palette.css";
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *)) {}
+@theme {
+  --breakpoint-xs: 30rem;
+  --breakpoint-2xl: 100rem;
+  --breakpoint-3xl: 120rem;
+  --font-sans: ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  html,
+  body {
+    @apply
+			h-full
+			box-border
+			min-h-[100vh]
+			font-sans
+			transition-all
+			ease-in-out;
+  }
+  body {
+    @apply
+			overflow-x-hidden
+			flex
+			flex-col
+			m-0
+			p-8
+			bg-white
+			w-full
+			min-h-[100vh];
+    * {
+			@apply
+				sm:text-sm
+				text-base
+				lg:text-lg
+				xl:text-lg
+				2xl:text-lg
+				3xl:text-xl
+				transition-all
+				ease-in-out;
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+}
+@layer components {
+  main {
+    @apply
+			box-border
+			bg-[#efefef]
+			dark:bg-[#222]
+			flex
+			flex-col
+			items-center
+			justify-center
+			contain-content
+			my-[20px]
+			mx-auto
+			p-8
+			min-h-full
+			xs:w-full
+			sm:w-full
+			lg:w-9/12
+			w-[inherit]
+			z-10;
+    &.light {
+      @apply bg-[#eee];
+    }
+    &.dark {
+      @apply bg-[#222];
+    }
+		&:nth-child(1) {
+			margin-top: 0;
+		}
+    h1 {
+      @apply
+				xs:text-lg
+				sm:text-xl
+				text-3xl
+				md:text-4xl
+				my-4;
+      &::before {
+        content: "";
+        @apply
+					mr-5
+					font-thin;
+      }
+    }
+    section {
+      @apply
+				flex
+				grid-cols-4
+				m-0
+				p-0
+				w-full;
+      article {
+        @apply
+					flex
+					w-1/4
+					mr-3
+					mt-3
+					xs:p-1
+					p-1
+					lg:p-3;
+        &:nth-child(4) {
+          @apply mr-0!;
+        }
+      }
+      button {
+        @apply
+					xs:text-[0px]
+					sm:text-[0px]
+					text-lg
+					lg:text-xl
+					m-0
+					text-center
+					w-1/12
+					py-3;
+				&.arrow  {
+					@apply
+						text-black
+						dark:text-white;
+				}
+      }
+    }
+  }
+}
+@layer utilities {
+  .hidden {
+    opacity: 0;
+  }
+  .transition-smooth {
+    transition: var(--transition-smooth);
+  }
+}

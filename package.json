@@ -3,10 +3,10 @@
   "author": "xero (https://x-e.ro)",
   "description": "material color palette for tailwindcss generator",
   "license": "CC0-1.0",
-  "version": "2.2.1",
+  "version": "1.1.0",
   "scripts": {
     "build": "bun CICaDa.js",
-		"palette": "bun palette.ts"
+    "palette": "bun palette.ts"
   },
   "dependencies": {
     "@material/material-color-utilities": "^0.3.0",
