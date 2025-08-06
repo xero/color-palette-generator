@@ -1,5 +1,5 @@
 {
-  "name": "tailwind-color-palette-generator",
+  "name": "material-tailwind-color-palette-generator",
   "author": "xero (https://x-e.ro)",
   "description": "generate material color palette for tailwindcss from arbitrary colors",
   "license": "CC0-1.0",
